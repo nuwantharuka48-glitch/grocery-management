@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FreshMart - Order Confirmed</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="container">
+    <h1>🎉 Order Confirmed!</h1>
+    <p>Thank you for shopping with us. Your grocery delivery is being prepared.</p>
+
+    <div class="receipt">
+        <p><strong>Order ID:</strong> <span th:text="${order.orderId}"></span></p>
+        <p><strong>Recipient:</strong> <span th:text="${order.customerName}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${order.customerEmail}"></span></p>
+        <p><strong>Delivery Address:</strong> <span th:text="${order.address}"></span></p>
+
+        <h3 style="margin-top: 15px;">Items:</h3>
+        <ul style="padding-left: 20px; margin-top: 5px;">
+            <li th:each="orderedItem : ${order.items}" th:text="${orderedItem}"></li>
+        </ul>
+
+        <h2 style="margin-top: 15px; color: #2e7d32;">
+            Total: $<span th:text="${#numbers.formatDecimal(order.totalAmount, 1, 2)}"></span>
+        </h2>
+    </div>
+
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <a href="/" style="text-decoration: none; flex: 1;">
+            <button class="btn">Back to Shop</button>
+        </a>
+        <a href="/admin/orders" style="text-decoration: none; flex: 1;">
+            <button class="btn" style="background-color: #0288d1;">View in Admin Panel</button>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

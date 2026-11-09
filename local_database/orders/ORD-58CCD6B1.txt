@@ -1,0 +1,17 @@
+=========================================
+           FRESHMART RECEIPT             
+=========================================
+Order ID: ORD-58CCD6B1
+Date: 2026-11-10 01:47:57
+Customer: nuwan tharuka
+Email: nuwantharuka48@gmail.com
+Delivery Address: 370/12 kudagama
+hatton
+-----------------------------------------
+Items Ordered:
+ - Fresh Red Apples x1 ($3.99)
+ - Ripe Hass Avocados x1 ($4.50)
+ - Ceylon Cinnamon Sticks x1 ($3.10)
+-----------------------------------------
+TOTAL AMOUNT: $11.59
+=========================================

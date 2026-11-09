@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FreshMart - Online Grocery</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;">
+        <h1>🛒 FreshMart Grocery Order</h1>
+        <div>
+            <span>Welcome, <strong th:text="${user}"></strong></span>
+            <a href="/admin/orders" style="margin-left: 15px; color: #0288d1; text-decoration: none; font-weight: bold;">📦 Manage Orders</a>
+            <a href="/logout" style="margin-left: 15px; color: #d32f2f; text-decoration: none; font-weight: bold;">Logout</a>
+        </div>
+    </div>
+
+    <form id="orderForm" action="/checkout" method="POST">
+        <h2>1. Select Your Groceries</h2>
+
+        <div class="grocery-grid">
+            <div th:each="item : ${items}" class="product-card">
+                <img th:src="${item.imageUrl}" th:alt="${item.name}" class="product-img">
+                <div class="product-info">
+                    <label class="product-label">
+                        <input type="checkbox" name="itemIds" th:value="${item.id}" th:data-price="${item.price}" class="item-checkbox">
+                        <strong th:text="${item.name}">Item Name</strong>
+                    </label>
+                    <p class="unit-text" th:text="${item.unit}"></p>
+                    <p class="price-text" th:text="'$' + ${#numbers.formatDecimal(item.price, 1, 2)}"></p>
+
+                    <div class="qty-container">
+                        <label>Qty:</label>
+                        <input type="number" th:name="'quantity_' + ${item.id}" value="1" min="1" max="50" class="qty-input" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="itemError" class="error-msg">Please select at least one item.</div>
+
+        <div class="live-total-bar">
+            <span>Estimated Total:</span>
+            <strong id="liveTotalDisplay">$0.00</strong>
+        </div>
+
+        <h2 style="margin-top: 30px;">2. Delivery Details</h2>
+        <div class="form-group">
+            <label for="customerName">Full Name</label>
+            <input type="text" id="customerName" name="customerName">
+            <div id="nameError" class="error-msg">Please enter a valid full name (min 3 chars).</div>
+        </div>
+
+        <div class="form-group">
+            <label for="customerEmail">Email</label>
+            <input type="email" id="customerEmail" name="customerEmail">
+            <div id="emailError" class="error-msg">Please enter a valid email address.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="address">Delivery Address</label>
+            <textarea id="address" name="address" rows="3"></textarea>
+            <div id="addressError" class="error-msg">Address must be at least 5 characters long.</div>
+        </div>
+
+        <button type="submit" class="btn">Place Order</button>
+    </form>
+</div>
+
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

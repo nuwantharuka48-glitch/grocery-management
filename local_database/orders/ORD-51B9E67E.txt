@@ -1,0 +1,17 @@
+=========================================
+           FRESHMART RECEIPT             
+=========================================
+Order ID: ORD-51B9E67E
+Date: 2026-11-10 01:23:22
+Customer: nuwan tharuka
+Email: nuwantharuka48@gmail.com
+Delivery Address: 370/12 kudagama
+hatton
+-----------------------------------------
+Items Ordered:
+ - Fresh Red Apples ($3.99)
+ - Ripe Hass Avocados ($4.5)
+ - Smoky Chili Spice Rub ($2.99)
+-----------------------------------------
+TOTAL AMOUNT: $11.48
+=========================================

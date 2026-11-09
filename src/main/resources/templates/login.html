@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FreshMart - Login</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .login-box {
+            max-width: 400px;
+            margin: 60px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .demo-hint {
+            margin-top: 15px;
+            padding: 10px;
+            background: #eef2f5;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-box">
+    <h2 style="text-align: center; color: #2e7d32; margin-bottom: 15px;">🛒 FreshMart Login</h2>
+
+    <div th:if="${param.registered}" style="background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; padding: 10px; border-radius: 6px; margin-bottom: 15px; text-align: center; font-weight: 600;">
+        ✅ Registration successful! Please sign in.
+    </div>
+
+    <div th:if="${error}" style="color: #d32f2f; margin-bottom: 12px; font-weight: bold; text-align: center;" th:text="${error}"></div>
+
+    <form id="loginForm" action="/login" method="POST">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username">
+            <div id="usernameError" class="error-msg">Username must be at least 3 characters.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password">
+            <div id="passwordError" class="error-msg">Password must be at least 4 characters.</div>
+        </div>
+
+        <button type="submit" class="btn">Sign In</button>
+    </form>
+
+    <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;">
+        Don't have an account? <a href="/register" style="color: #2e7d32; font-weight: bold; text-decoration: none;">Sign Up here</a>
+    </p>
+
+    <div class="demo-hint">
+        <strong>Default Test Credentials:</strong><br>
+        Username: <code>user</code><br>
+        Password: <code>1234</code>
+    </div>
+</div>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        let valid = true;
+        const user = document.getElementById("username");
+        const pass = document.getElementById("password");
+        const userErr = document.getElementById("usernameError");
+        const passErr = document.getElementById("passwordError");
+
+        if (user.value.trim().length < 3) {
+            userErr.style.display = "block";
+            valid = false;
+        } else {
+            userErr.style.display = "none";
+        }
+
+        if (pass.value.trim().length < 4) {
+            passErr.style.display = "block";
+            valid = false;
+        } else {
+            passErr.style.display = "none";
+        }
+
+        if (!valid) event.preventDefault();
+    });
+</script>
+</body>
+</html>

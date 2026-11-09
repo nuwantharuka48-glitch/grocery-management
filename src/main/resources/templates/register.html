@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FreshMart - Register</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .auth-box {
+            max-width: 420px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-box">
+    <h2 style="text-align: center; color: #2e7d32; margin-bottom: 20px;">📝 Create Account</h2>
+
+    <div th:if="${error}" style="color: #d32f2f; margin-bottom: 12px; text-align: center; font-weight: bold;" th:text="${error}"></div>
+
+    <form id="registerForm" action="/register" method="POST">
+        <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" name="fullName">
+            <div id="nameError" class="error-msg">Full name must be at least 3 characters.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username">
+            <div id="userError" class="error-msg">Username must be at least 3 characters (no spaces).</div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password">
+            <div id="passError" class="error-msg">Password must be at least 4 characters.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword">
+            <div id="confirmError" class="error-msg">Passwords do not match.</div>
+        </div>
+
+        <button type="submit" class="btn">Register</button>
+    </form>
+
+    <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;">
+        Already have an account? <a href="/login" style="color: #2e7d32; font-weight: bold; text-decoration: none;">Sign In here</a>
+    </p>
+</div>
+
+<script>
+    document.getElementById("registerForm").addEventListener("submit", function (e) {
+        let valid = true;
+        const name = document.getElementById("fullName").value.trim();
+        const user = document.getElementById("username").value.trim();
+        const pass = document.getElementById("password").value;
+        const confirm = document.getElementById("confirmPassword").value;
+
+        if (name.length < 3) {
+            document.getElementById("nameError").style.display = "block";
+            valid = false;
+        } else {
+            document.getElementById("nameError").style.display = "none";
+        }
+
+        if (user.length < 3 || user.includes(" ")) {
+            document.getElementById("userError").style.display = "block";
+            valid = false;
+        } else {
+            document.getElementById("userError").style.display = "none";
+        }
+
+        if (pass.length < 4) {
+            document.getElementById("passError").style.display = "block";
+            valid = false;
+        } else {
+            document.getElementById("passError").style.display = "none";
+        }
+
+        if (pass !== confirm) {
+            document.getElementById("confirmError").style.display = "block";
+            valid = false;
+        } else {
+            document.getElementById("confirmError").style.display = "none";
+        }
+
+        if (!valid) e.preventDefault();
+    });
+</script>
+</body>
+</html>

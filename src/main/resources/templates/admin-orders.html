@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FreshMart - Orders Admin</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #2e7d32;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            color: white;
+        }
+        .btn-edit { background-color: #0288d1; }
+        .btn-edit:hover { background-color: #01579b; }
+        .btn-delete { background-color: #d32f2f; margin-left: 5px; }
+        .btn-delete:hover { background-color: #b71c1c; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            width: 380px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" style="max-width: 1000px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;">
+        <h1>📦 Order Management (Local DB)</h1>
+        <div>
+            <a href="/" style="margin-right: 15px; color: #2e7d32; text-decoration: none; font-weight: bold;">← Back to Shop</a>
+            <a href="/logout" style="color: #d32f2f; text-decoration: none; font-weight: bold;">Logout</a>
+        </div>
+    </div>
+
+    <!-- Notification banners -->
+    <div th:if="${param.updated}" style="background: #e1f5fe; color: #0288d1; padding: 10px; border-radius: 6px; margin-bottom: 15px;">
+        ✅ Order delivery address was updated in the local database file!
+    </div>
+    <div th:if="${param.deleted}" style="background: #ffebee; color: #d32f2f; padding: 10px; border-radius: 6px; margin-bottom: 15px;">
+        🗑️ Order receipt file was deleted from your local PC folder!
+    </div>
+
+    <div th:if="${#lists.isEmpty(orders)}" style="padding: 20px; text-align: center; color: #666;">
+        No orders found in <code>local_database/orders/</code> folder. Go place an order first!
+    </div>
+
+    <!-- READ Table -->
+    <div th:if="${not #lists.isEmpty(orders)}" class="table-container">
+        <table>
+            <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Address</th>
+                <th>Total</th>
+                <th>Items</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td><strong th:text="${order.orderId}"></strong></td>
+                <td>
+                    <span th:text="${order.customerName}"></span><br>
+                    <small style="color: #666;" th:text="${order.customerEmail}"></small>
+                </td>
+                <td th:text="${order.address}"></td>
+                <td><strong style="color: #2e7d32;" th:text="'$' + ${#numbers.formatDecimal(order.totalAmount, 1, 2)}"></strong></td>
+                <td>
+                    <ul style="padding-left: 15px; font-size: 0.85rem;">
+                        <li th:each="item : ${order.items}" th:text="${item}"></li>
+                    </ul>
+                </td>
+                <td>
+                    <div style="display: flex;">
+                        <!-- FIXED: Uses HTML5 data- attributes instead of double brackets -->
+                        <button type="button" class="btn-sm btn-edit"
+                                th:data-order-id="${order.orderId}"
+                                th:data-order-address="${order.address}"
+                                onclick="openEditModal(this)">
+                            Edit Address
+                        </button>
+
+                        <!-- DELETE Form -->
+                        <form action="/admin/orders/delete" method="POST" onsubmit="return confirm('Delete this order file from local database?');">
+                            <input type="hidden" name="orderId" th:value="${order.orderId}">
+                            <button type="submit" class="btn-sm btn-delete">Delete</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- UPDATE MODAL POPUP -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <h3 style="margin-bottom: 15px; color: #0288d1;">Update Delivery Address</h3>
+        <form action="/admin/orders/update" method="POST">
+            <input type="hidden" id="modalOrderId" name="orderId">
+            <div class="form-group">
+                <label for="modalAddress">New Address:</label>
+                <textarea id="modalAddress" name="newAddress" rows="3" required style="width: 100%; padding: 8px;"></textarea>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px;">
+                <button type="button" onclick="closeEditModal()" class="btn-sm" style="background:#888;">Cancel</button>
+                <button type="submit" class="btn-sm btn-edit">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openEditModal(button) {
+        // Read data directly from the button attributes
+        const orderId = button.getAttribute("data-order-id");
+        const address = button.getAttribute("data-order-address");
+
+        document.getElementById("modalOrderId").value = orderId;
+        document.getElementById("modalAddress").value = address;
+        document.getElementById("editModal").style.display = "flex";
+    }
+
+    function closeEditModal() {
+        document.getElementById("editModal").style.display = "none";
+    }
+</script>
+
+</body>
+</html>

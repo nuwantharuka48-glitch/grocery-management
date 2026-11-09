@@ -1,0 +1,17 @@
+=========================================
+           FRESHMART RECEIPT             
+=========================================
+Order ID: ORD-BA784658
+Date: 2026-11-10 00:44:31
+Customer: nuwan tharuka
+Email: nuwantharuka48@gmail.com
+Delivery Address: 370/12 kudagama
+hatton
+-----------------------------------------
+Items Ordered:
+ - Fresh Red Apples ($3.99)
+ - Ripe Hass Avocados ($4.5)
+ - Sweet Dark Cherries ($5.2)
+-----------------------------------------
+TOTAL AMOUNT: $13.69
+=========================================

@@ -1,0 +1,16 @@
+=========================================
+           FRESHMART RECEIPT             
+=========================================
+Order ID: ORD-41382A90
+Date: 2026-11-10 02:12:12
+Customer: nuwan tharuka
+Email: nuwantharuka48@gmail.com
+Delivery Address: 370/12 kudagama
+hatton
+-----------------------------------------
+Items Ordered:
+ - Fresh Red Apples x5 ($19.95)
+ - Ripe Hass Avocados x4 ($18.00)
+-----------------------------------------
+TOTAL AMOUNT: $37.95
+=========================================

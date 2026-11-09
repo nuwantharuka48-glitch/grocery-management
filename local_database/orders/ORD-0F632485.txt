@@ -1,0 +1,15 @@
+=========================================
+           FRESHMART RECEIPT             
+=========================================
+Order ID: ORD-0F632485
+Date: 2026-11-10 02:06:12
+Customer: dilanka gayashan
+Email: dila48@gmail.com
+Delivery Address: peradeniya rd/ kandy
+
+-----------------------------------------
+Items Ordered:
+ - Ripe Hass Avocados x4 ($18.00)
+-----------------------------------------
+TOTAL AMOUNT: $18.00
+=========================================
